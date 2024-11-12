@@ -1440,6 +1440,9 @@ func (t *http2Client) operateHeaders(frame *http2.MetaHeadersFrame) {
 	if s == nil {
 		return
 	}
+	if len(frame.Fields) > 0 {
+		atomic.StoreUint32(&s.hasMsg, 1)
+	}
 	endStream := frame.StreamEnded()
 	atomic.StoreUint32(&s.bytesReceived, 1)
 	initialHeader := atomic.LoadUint32(&s.headerChanClosed) == 0
