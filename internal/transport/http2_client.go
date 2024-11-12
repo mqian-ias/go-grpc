@@ -1441,7 +1441,7 @@ func (t *http2Client) operateHeaders(frame *http2.MetaHeadersFrame) {
 		return
 	}
 	if len(frame.Fields) > 0 {
-		atomic.StoreUint32(&s.hasMsg, 1)
+		atomic.StoreUint32(&s.HasMsg, 1)
 	}
 	endStream := frame.StreamEnded()
 	atomic.StoreUint32(&s.bytesReceived, 1)

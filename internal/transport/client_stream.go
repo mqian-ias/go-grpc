@@ -46,7 +46,7 @@ type ClientStream struct {
 	unprocessed   uint32 // set if the server sends a refused stream or GOAWAY including this stream
 
 	status *status.Status // the status error received from the server
-	hasMsg uint32
+	HasMsg uint32
 }
 
 // BytesReceived indicates whether any bytes have been received on this stream.
@@ -61,7 +61,7 @@ func (s *ClientStream) Unprocessed() bool {
 }
 
 func (s *ClientStream) waitOnHeader() {
-	if atomic.LoadUint32(&s.hasMsg) == 0 {
+	if atomic.LoadUint32(&s.HasMsg) == 0 {
 		return
 	}
 	select {

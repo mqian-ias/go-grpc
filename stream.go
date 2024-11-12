@@ -26,6 +26,7 @@ import (
 	rand "math/rand/v2"
 	"strconv"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"google.golang.org/grpc/balancer"
@@ -958,6 +959,9 @@ func (cs *clientStream) SendMsg(m any) (err error) {
 }
 
 func (cs *clientStream) RecvMsg(m any) error {
+	defer func() {
+		atomic.StoreUint32(&cs.attempt.s.HasMsg, 0)
+	}()
 	if len(cs.binlogs) != 0 && !cs.serverHeaderBinlogged {
 		// Call Header() to binary log header if it's not already logged.
 		cs.Header()
